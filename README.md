@@ -1,7 +1,7 @@
 # HTML2Excel
 Just a little Python script to convert Basketball Stat Tracker app HTML export files into Excel.
 
-Before V1.3.0 you had to manually add a ```<si>``` tag surrounding the players (```<tr>```) you wanted to export.
+**Note:** Before V1.3.0 you had to manually add a ```<si>``` tag surrounding the players (```<tr>```) you wanted to export.
 
 ---
 
