@@ -53,16 +53,17 @@ def confirmar():
         try:
             # Ruta archivo html
             ruta = lbl_file.cget('text')
-            equipo = opcion.get()[0].lower()
+            if opcion.get()[0].lower() == 'p':
+                equipo = opcion_equipo.get()[0].lower()
   
-            while equipo != "l" and equipo != "v":
-              equipo = input("A ver inutil, que solo vale L (LOCAL) o V (Visitante), como mucho te las acepto en minuscula: ").lower()
+                if equipo == "l":
+                  valor_equipo = 2
+                else:
+                  valor_equipo = 3
   
-            if equipo == "l":
-              valor_equipo = 2
             else:
-              valor_equipo = 3
-  
+              valor_equipo = 0
+            
             # Opening the html file
             HTMLFile = open(ruta, "r")
   
@@ -366,6 +367,15 @@ def buscarArchivo():
     if len(filename) != 0:
         lbl_file.config(text = filename, foreground = '#366da3')
 
+def click_partido():
+    rb_local.configure(state = "enabled", cursor = 'hand2')
+    rb_visitante.configure(state = "enabled", cursor = 'hand2')
+    
+
+def click_stats():
+    rb_local.configure(state = "disabled", cursor = 'arrow')
+    rb_visitante.configure(state = "disabled", cursor = 'arrow')
+
 # Window
 window = tb.Window(themename = 'journal', title = 'HTML2Excel_V5.1', resizable = (False, False))
 
@@ -383,28 +393,31 @@ window.geometry(f'{app_width}x{app_height}+{int(x)}+{int(y)}')
 
 # Button styles
 btn_style1 = tb.Style()
-btn_style1.configure('info.TButton', font = ('Roboto Slab', 10))
+btn_style1.configure('info.TButton', font = ('Corbel', 10))
 
 btn_style2 = tb.Style()
-btn_style2.configure('info.TRadiobutton', font = ('Roboto Slab', 10))
+btn_style2.configure('info.TRadiobutton', font = ('Corbel', 10))
+
+btn_style2_1 = tb.Style()
+btn_style2_1.configure('info.Toolbutton', font = ('Corbel', 10))
 
 btn_style3 = tb.Style()
-btn_style3.configure('success.TButton', font = ('Roboto Slab', 10))
+btn_style3.configure('success.TButton', font = ('Corbel', 10))
 
 btn_style4 = tb.Style()
-btn_style4.configure('primary.TButton', font = ('Roboto Slab', 10))
+btn_style4.configure('primary.TButton', font = ('Corbel', 10))
 
 # Title
 title_frame = tb.Frame(window, style = 'my.TFrame')
 lbl_title = tb.Label(title_frame, text = 'HTML2Excel')
 lbl_title.pack(side = 'left')
-lbl_title.config(font = ('Roboto Slab', 24, 'bold'), foreground = 'black')
+lbl_title.config(font = ('Corbel', 24, 'bold'), foreground = 'black')
 title_frame.pack(fill = 'x', pady = 18, padx = 20)
 
 # Insert file
 insert_file_frame = tb.Frame(window, style = '#daeddb')
 lbl_seleccionar_archivo = tb.Label(insert_file_frame, text = 'Selecciona un reporte: ', foreground = 'black')
-lbl_seleccionar_archivo.config(font = ('Roboto Slab', 12))
+lbl_seleccionar_archivo.config(font = ('Corbel', 12))
 btn_buscar_archivo = tb.Button(insert_file_frame, text = 'Buscar archivo', command = buscarArchivo, style = 'info.TButton', cursor = 'hand2')
 btn_archivo_borrar = tb.Button(insert_file_frame, text = 'Borrar archivo seleccionado', command = borrarArchivo, style = 'info.TButton', cursor = 'hand2')
 lbl_seleccionar_archivo.pack(side = 'left')
@@ -412,23 +425,33 @@ btn_buscar_archivo.pack(side = 'left', padx = 10)
 btn_archivo_borrar.pack(side = 'left')
 insert_file_frame.pack(fill = 'x', padx = 20)
 lbl_file = tb.Label(master = window, foreground = '#366da3')
-lbl_file.config(font = ('Roboto Slab', 10))
+lbl_file.config(font = ('Corbel', 10))
 lbl_file.pack(fill = 'x', padx = 20, pady = 10)
+
+# Game Stats / General Stats ComboBox
+radiobutton_team_frame = tb.Frame(window)
+opcion = StringVar()
+rb_partido = tb.Radiobutton(radiobutton_team_frame, text = 'Partido', variable = opcion, value = 'Partido', cursor = 'hand2', style = 'info.Toolbutton', command = click_partido)
+rb_Stats = tb.Radiobutton(radiobutton_team_frame, text = 'Estadisticas', variable = opcion, value = 'Estadisticas', cursor = 'hand2', style = 'info.Outline.Toolbutton', command = click_stats)
+rb_partido.pack(side = 'left')
+rb_Stats.pack(side = 'left', padx = 10)
+rb_partido.invoke()
+radiobutton_team_frame.pack(fill = 'x', padx = 23, pady = 10)
 
 # Radiobuton select team
 radiobutton_team_frame = tb.Frame(window)
-opcion = StringVar()
-rb_local = tb.Radiobutton(radiobutton_team_frame, text = 'Local', variable = opcion, value = 'Local', cursor = 'hand2', style = 'info.TRadiobutton')
-rb_visitante = tb.Radiobutton(radiobutton_team_frame, text = 'Visitante', variable = opcion, value = 'Visitante', cursor = 'hand2', style = 'info.TRadiobutton')
+opcion_equipo = StringVar()
+rb_local = tb.Radiobutton(radiobutton_team_frame, text = 'Local', variable = opcion_equipo, value = 'Local', cursor = 'hand2', style = 'info.TRadiobutton')
+rb_visitante = tb.Radiobutton(radiobutton_team_frame, text = 'Visitante', variable = opcion_equipo, value = 'Visitante', cursor = 'hand2', style = 'info.TRadiobutton')
 rb_local.pack(side = 'left')
 rb_visitante.pack(side = 'left', padx = 20)
 rb_local.invoke()
-radiobutton_team_frame.pack(fill = 'x', padx = 23, pady = 30)
+radiobutton_team_frame.pack(fill = 'x', padx = 23, pady = 20)
 
 # Confirm / Exit buttons
 buttons_frame = tb.Frame(window)
 btn_confirm = tb.Button(buttons_frame, text = 'Confirmar', command = confirmar, style = 'success.TButton', cursor = 'hand2').pack(side = 'right')
 btn_exit = tb.Button(buttons_frame, text = 'Cerrar aplicación', command = salir, style = 'primary.TButton', cursor = 'hand2').pack(side = 'right', padx = 10)
-buttons_frame.pack(pady = 30, padx = 30, fill = 'x')
+buttons_frame.pack(pady = 20, padx = 30, fill = 'x')
 
 window.mainloop()
