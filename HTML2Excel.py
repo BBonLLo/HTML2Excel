@@ -326,7 +326,7 @@ def confirmar():
 
             toast = ToastNotification(
                 icon = '',
-                title = 'HTML2Excel_V5.1',
+                title = 'HTML2Excel_V2.2.0',
                 message = 'Todo perfecto inútil',
                 duration = 5000,
                 alert = True
@@ -336,7 +336,7 @@ def confirmar():
         except Exception:
             toast = ToastNotification(
                 icon = '',
-                title = 'HTML2Excel_V5.1',
+                title = 'HTML2Excel_V2.2.0',
                 message = 'Algo ha fallado, contacta con Unai',
                 duration = 5000,
                 alert = True
@@ -377,7 +377,7 @@ def click_stats():
     rb_visitante.configure(state = "disabled", cursor = 'arrow')
 
 # Window
-window = tb.Window(themename = 'journal', title = 'HTML2Excel_V5.1', resizable = (False, False))
+window = tb.Window(themename = 'journal', title = 'HTML2Excel_V2.2.0', resizable = (False, False))
 
 
 app_width = 600
