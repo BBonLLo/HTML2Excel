@@ -379,9 +379,8 @@ def click_stats():
 # Window
 window = tb.Window(themename = 'journal', title = 'HTML2Excel_V2.2.0', resizable = (False, False))
 
-
 app_width = 600
-app_height = 350
+app_height = 400
 
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
